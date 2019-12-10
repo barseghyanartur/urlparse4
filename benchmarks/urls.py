@@ -39,13 +39,13 @@ def benchmark(name, func, debug=False):
         for i, url in enumerate(URLS):
             u = url.strip()
             if debug:
-                print u
+                print(u)
             t = clock()
             func(u)
             times.append(clock() - t)
 
     row = [name, sum(times), mean(times), median(times), percentile(times, 90)]
-    print row
+    print(row)
     data.append(row)
 
 
@@ -53,6 +53,7 @@ def title(name):
     data.append(["", "", "", "", ""])
     data.append(["%s:" % name, "", "", "", ""])
     data.append(["----", "----", "----", "----", "----"])
+
 
 # Segfault: https://github.com/mitghi/cyuri/issues/1
 cyuri_parser = cyuri.uriparser()
@@ -67,11 +68,13 @@ benchmark("urlparse", lambda url: urlparse.urlsplit(url))
 benchmark("cyuri", lambda url: cyuri_parser.components(url))
 
 title("urljoin_sibling")
-benchmark("urlparse4", lambda url: urlparse4.urljoin(url, "sibling.html?q=1#e=b"))
+benchmark("urlparse4",
+          lambda url: urlparse4.urljoin(url, "sibling.html?q=1#e=b"))
 benchmark("pygurl", lambda url: pygurl.URL(url).Resolve("sibling.html?q=1#e=b"))
 benchmark("uritools", lambda url: uritools_urijoin(url, "sibling.html?q=1#e=b"))
 benchmark("yurl", lambda url: yurl_url(url) + yurl_url("sibling.html?q=1#e=b"))
-benchmark("urlparse2", lambda url: urlparse2.urljoin(url, "sibling.html?q=1#e=b"))
+benchmark("urlparse2",
+          lambda url: urlparse2.urljoin(url, "sibling.html?q=1#e=b"))
 benchmark("urlparse", lambda url: urlparse.urljoin(url, "sibling.html?q=1#e=b"))
 benchmark("cyuri", lambda url: cyuri_parser.join(url, "sibling.html?q=1#e=b"))
 
@@ -93,8 +96,11 @@ benchmark("cyuri", lambda url: cyuri_parser.components(url)["host"])
 # benchmark("urlparse3_urlsplit", lambda url: urlparse3.parse_url(url))
 
 
-print
-print "Benchmark results on %s URLs x %s times, in seconds:" % (len(URLS), REPEATS)
-print
-print tabulate.tabulate(data, headers=["Name", "Sum", "Mean", "Median", "90%"])
-print
+print()
+print(
+    "Benchmark results on %s URLs x %s times, in "
+    "seconds:" % (len(URLS), REPEATS)
+)
+print()
+print(tabulate.tabulate(data, headers=["Name", "Sum", "Mean", "Median", "90%"]))
+print()

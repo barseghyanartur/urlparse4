@@ -1,6 +1,6 @@
 # https://github.com/python/cpython/blob/2.7/Lib/urlparse.py
 
-from urlparse import *
+from urllib.parse import *
 
 _original_urlsplit = urlsplit
 _original_urljoin = urljoin
